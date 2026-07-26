@@ -1,0 +1,207 @@
+:root {
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --glass-bg: rgba(255, 255, 255, 0.14);
+  --glass-bg-strong: rgba(255, 255, 255, 0.22);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-shadow: 0 8px 32px rgba(10, 20, 40, 0.35);
+
+  --ink: #f4f7fb;
+  --ink-dim: rgba(244, 247, 251, 0.72);
+  --ink-faint: rgba(244, 247, 251, 0.45);
+
+  --accent-sun: #ffc93c;
+  --accent-storm: #ffd166;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.temp-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ---------- Glassmorphism ---------- */
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.glass-input:focus-within {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- Background layer ---------- */
+
+.weather-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  transition: background 1.4s ease;
+}
+
+.weather-bg__gradient {
+  position: absolute;
+  inset: 0;
+  transition: opacity 1.2s ease;
+}
+
+/* ---------- Rain ---------- */
+
+.rain-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.raindrop {
+  position: absolute;
+  top: -10%;
+  width: 1.5px;
+  height: 60px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, rgba(168, 197, 224, 0), rgba(200, 220, 240, 0.65));
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh);
+  }
+}
+
+/* ---------- Snow ---------- */
+
+.snowflake {
+  position: absolute;
+  top: -5%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  animation: snowfall linear infinite;
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(var(--drift, 20px), 110vh) rotate(360deg);
+  }
+}
+
+/* ---------- Stars ---------- */
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---------- Lightning ---------- */
+
+.lightning-flash {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ---------- Scrollbar (subtle) ---------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+/* ---------- Utility ---------- */
+
+.center-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .raindrop,
+  .snowflake,
+  .star {
+    animation: none !important;
+  }
+}
